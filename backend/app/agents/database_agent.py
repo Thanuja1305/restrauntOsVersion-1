@@ -491,3 +491,109 @@ class DatabaseAgent:
                 LocalDB.write(db)
                 return db["notifications"][idx]
         return None
+
+    @staticmethod
+    async def create_menu_item(data: Dict[str, Any]) -> Dict[str, Any]:
+        try:
+            res = supabase.table("menu").insert(data).execute()
+            if res.data:
+                return res.data[0]
+        except Exception as e:
+            logger.warn(f"[DB_FALLBACK] Menu item creation failed, inserting locally. Detail: {e}")
+            
+        db = LocalDB.read()
+        db["menu"].append(data)
+        LocalDB.write(db)
+        return data
+
+    @staticmethod
+    async def add_supplier(data: Dict[str, Any]) -> Dict[str, Any]:
+        supp_id = f"supp_{int(datetime.datetime.utcnow().timestamp())}"
+        supplier_data = {
+            "id": supp_id,
+            "created_at": datetime.datetime.utcnow().isoformat(),
+            **data
+        }
+        try:
+            res = supabase.table("suppliers").insert(supplier_data).execute()
+            if res.data:
+                return res.data[0]
+        except Exception as e:
+            logger.warn(f"[DB_FALLBACK] Supplier creation failed, inserting locally. Detail: {e}")
+            
+        db = LocalDB.read()
+        db["suppliers"].append(supplier_data)
+        LocalDB.write(db)
+        return supplier_data
+
+    @staticmethod
+    async def add_expense(data: Dict[str, Any]) -> Dict[str, Any]:
+        exp_id = f"exp_{int(datetime.datetime.utcnow().timestamp())}"
+        expense_data = {
+            "id": exp_id,
+            "expense_date": datetime.date.today().isoformat(),
+            **data
+        }
+        try:
+            res = supabase.table("expenses").insert(expense_data).execute()
+            if res.data:
+                return res.data[0]
+        except Exception as e:
+            logger.warn(f"[DB_FALLBACK] Expense creation failed, inserting locally. Detail: {e}")
+            
+        db = LocalDB.read()
+        db["expenses"].append(expense_data)
+        LocalDB.write(db)
+        return expense_data
+
+    @staticmethod
+    async def add_bill(data: Dict[str, Any]) -> Dict[str, Any]:
+        bill_id = f"bill_{int(datetime.datetime.utcnow().timestamp())}"
+        db_local = LocalDB.read()
+        supp = next((s for s in db_local.get("suppliers", []) if s["id"] == data["supplierId"]), {})
+        supp_name = supp.get("name", "Unknown Supplier")
+        
+        bill_data = {
+            "id": bill_id,
+            "supplier_id": data["supplierId"],
+            "supplier_name": supp_name,
+            "amount": float(data["amount"]),
+            "due_date": data["dueDate"],
+            "status": "unpaid"
+        }
+        try:
+            supabase_data = {
+                "id": bill_id,
+                "supplier_id": data["supplierId"],
+                "supplier_name": supp_name,
+                "amount": float(data["amount"]),
+                "due_date": data["dueDate"],
+                "status": "unpaid"
+            }
+            res = supabase.table("bills").insert(supabase_data).execute()
+            if res.data:
+                return res.data[0]
+        except Exception as e:
+            logger.warn(f"[DB_FALLBACK] Bill creation failed, inserting locally. Detail: {e}")
+            
+        db = LocalDB.read()
+        db["bills"].append(bill_data)
+        LocalDB.write(db)
+        return bill_data
+
+    @staticmethod
+    async def update_bill(bill_id: str, status: str) -> Dict[str, Any]:
+        try:
+            res = supabase.table("bills").update({"status": status}).eq("id", bill_id).execute()
+            if res.data:
+                return res.data[0]
+        except Exception as e:
+            logger.warn(f"[DB_FALLBACK] Bill update failed, updating locally. Detail: {e}")
+            
+        db = LocalDB.read()
+        for idx, bill in enumerate(db.get("bills", [])):
+            if bill["id"] == bill_id:
+                db["bills"][idx]["status"] = status
+                LocalDB.write(db)
+                return db["bills"][idx]
+        return {}

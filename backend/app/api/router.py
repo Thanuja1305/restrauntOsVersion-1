@@ -1,6 +1,6 @@
 import datetime
 from typing import List, Optional, Dict, Any
-from fastapi import APIRouter, Depends, HTTPException, status, Body
+from fastapi import APIRouter, Depends, HTTPException, status, Body, WebSocket, WebSocketDisconnect
 
 from backend.app import schemas
 from backend.app.agents.auth import AuthAgent
@@ -10,6 +10,7 @@ from backend.app.agents.inventory import InventoryAgent
 from backend.app.agents.analytics import AnalyticsAgent
 from backend.app.agents.notification import NotificationAgent
 from backend.app.agents.orchestrator import OrchestratorAgent
+from backend.app.agents.ingestion_gateway import IngestionGatewayAgent
 
 router = APIRouter(prefix="/api")
 
@@ -52,6 +53,19 @@ async def update_settings(data: Dict[str, Any], user: Dict[str, Any] = Depends(A
 async def get_menu(search: Optional[str] = None, user: Dict[str, Any] = Depends(AuthAgent.verify_token)):
     return await DatabaseAgent.get_menu(search)
 
+@router.post("/menu", response_model=schemas.MenuItemSchema)
+async def create_menu_item(data: Dict[str, Any], user: Dict[str, Any] = Depends(AuthAgent.verify_token)):
+    menu_data = {
+        "name": data["name"],
+        "price": float(data["price"]),
+        "category": data["category"],
+        "is_available": data.get("isAvailable", True),
+        "description": data.get("description", ""),
+        "created_at": datetime.datetime.utcnow().isoformat()
+    }
+    menu_data["id"] = f"menu_{int(datetime.datetime.utcnow().timestamp())}"
+    return await DatabaseAgent.create_menu_item(menu_data)
+
 @router.put("/menu/{menu_id}", response_model=schemas.MenuItemSchema)
 async def update_menu_item(menu_id: str, data: Dict[str, Any], user: Dict[str, Any] = Depends(AuthAgent.verify_token)):
     return await DatabaseAgent.update_menu_item(menu_id, data)
@@ -73,6 +87,17 @@ async def adjust_inventory(payload: schemas.StockAdjustmentRequest, user: Dict[s
 @router.get("/suppliers", response_model=List[schemas.SupplierSchema])
 async def get_suppliers(search: Optional[str] = None, user: Dict[str, Any] = Depends(AuthAgent.verify_token)):
     return await DatabaseAgent.get_suppliers(search)
+
+@router.post("/suppliers", response_model=schemas.SupplierSchema)
+async def add_supplier(data: Dict[str, Any], user: Dict[str, Any] = Depends(AuthAgent.verify_token)):
+    supplier_data = {
+        "name": data["name"],
+        "phone": data["phone"],
+        "email": data.get("email"),
+        "address": data.get("address"),
+        "contact_name": data.get("contactName")
+    }
+    return await DatabaseAgent.add_supplier(supplier_data)
 
 # ==========================================
 # CUSTOMERS ENDPOINTS
@@ -133,9 +158,26 @@ async def get_finance_overview(user: Dict[str, Any] = Depends(AuthAgent.verify_t
 async def get_bills(user: Dict[str, Any] = Depends(AuthAgent.verify_token)):
     return await DatabaseAgent.get_bills()
 
+@router.post("/finance/bills", response_model=schemas.BillSchema)
+async def add_bill(data: Dict[str, Any], user: Dict[str, Any] = Depends(AuthAgent.verify_token)):
+    return await DatabaseAgent.add_bill(data)
+
+@router.put("/finance/bills/{bill_id}", response_model=schemas.BillSchema)
+async def update_bill(bill_id: str, data: Dict[str, Any], user: Dict[str, Any] = Depends(AuthAgent.verify_token)):
+    return await DatabaseAgent.update_bill(bill_id, data["status"])
+
 @router.get("/finance/expenses", response_model=List[schemas.ExpenseSchema])
 async def get_expenses(user: Dict[str, Any] = Depends(AuthAgent.verify_token)):
     return await DatabaseAgent.get_expenses()
+
+@router.post("/finance/expenses", response_model=schemas.ExpenseSchema)
+async def add_expense(data: Dict[str, Any], user: Dict[str, Any] = Depends(AuthAgent.verify_token)):
+    expense_data = {
+        "category": data["category"],
+        "amount": float(data["amount"]),
+        "description": data.get("description", "")
+    }
+    return await DatabaseAgent.add_expense(expense_data)
 
 # ==========================================
 # CHAT ENDPOINTS
@@ -152,6 +194,36 @@ async def submit_chat_message(payload: schemas.ChatRequest, user: Dict[str, Any]
 async def clear_chat(user: Dict[str, Any] = Depends(AuthAgent.verify_token)):
     history = await DatabaseAgent.clear_chat_history()
     return {"status": "ok", "chatHistory": history}
+
+# ==========================================
+# INGESTION ENDPOINTS
+# ==========================================
+@router.post("/ingestion/event")
+async def ingest_event(payload: Dict[str, Any], user: Dict[str, Any] = Depends(AuthAgent.verify_token)):
+    source = payload.get("source", "web")
+    raw_data = payload.get("raw_data", {})
+    memory_context = payload.get("memory_context")
+    res = await IngestionGatewayAgent.ingest_input(source, raw_data, memory_context)
+    return res
+
+@router.websocket("/ingestion/voice-stream")
+async def websocket_voice_stream(websocket: WebSocket):
+    await websocket.accept()
+    try:
+        await websocket.send_json({
+            "status": "ready",
+            "message": "Real-time streaming voice agent listener connected."
+        })
+        while True:
+            data = await websocket.receive_json()
+            speech_text = data.get("text", "")
+            memory_context = data.get("memory_context")
+            res = await IngestionGatewayAgent.ingest_input("voice", {"speech_text": speech_text}, memory_context)
+            await websocket.send_json(res)
+    except WebSocketDisconnect:
+        pass
+    except Exception:
+        pass
 
 # ==========================================
 # ADMIN ENDPOINTS

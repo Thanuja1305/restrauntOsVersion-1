@@ -9,7 +9,7 @@ class UserSchema(BaseModel):
     lastName: str = Field(alias="last_name", default="")
     role: str = "staff"
     isActive: bool = True
-    createdAt: str
+    createdAt: str = Field(alias="created_at")
 
     class Config:
         populate_by_name = True
@@ -53,7 +53,7 @@ class MenuItemSchema(BaseModel):
     price: float
     category: str
     isAvailable: bool = Field(alias="is_available", default=True)
-    createdAt: str
+    createdAt: str = Field(alias="created_at")
 
     class Config:
         populate_by_name = True
@@ -66,7 +66,7 @@ class SupplierSchema(BaseModel):
     phone: str
     email: Optional[str] = None
     address: Optional[str] = None
-    createdAt: str
+    createdAt: str = Field(alias="created_at")
 
     class Config:
         populate_by_name = True
@@ -140,7 +140,7 @@ class CustomerSchema(BaseModel):
     phone: str
     email: Optional[str] = None
     loyaltyPoints: int = Field(alias="loyalty_points", default=0)
-    createdAt: str
+    createdAt: str = Field(alias="created_at")
 
     class Config:
         populate_by_name = True

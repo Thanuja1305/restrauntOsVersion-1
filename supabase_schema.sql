@@ -161,6 +161,17 @@ CREATE TABLE IF NOT EXISTS public.notifications (
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- 14. EVENT LOGS (AUDIT TRAIL)
+CREATE TABLE IF NOT EXISTS public.event_logs (
+    id TEXT PRIMARY KEY,
+    event_id TEXT NOT NULL,
+    source TEXT NOT NULL,
+    route_to TEXT NOT NULL,
+    confidence DOUBLE PRECISION,
+    payload JSONB NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 -- ====================================================
 -- ROW LEVEL SECURITY (RLS) POLICIES & PERMISSIONS
 -- ====================================================
@@ -179,13 +190,14 @@ ALTER TABLE public.expenses ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.bills ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.chat_history ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.notifications ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.event_logs ENABLE ROW LEVEL SECURITY;
 
 -- Grant broad SELECT/INSERT/UPDATE permissions to authenticated users (and anon for playground simplicity)
 -- This allows our FastAPI server backend (acting on behalf of authenticated app sessions) to perform queries.
 -- For production environments, tighten the policies utilizing role permissions in raw_app_meta_data.
 
 CREATE POLICY "Allow public read menu" ON public.menu FOR SELECT TO anon, authenticated USING (true);
-CREATE POLICY "Allow modification menu" ON public.menu FOR ALL TO authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Allow modification menu" ON public.menu FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
 
 CREATE POLICY "Allow access profiles" ON public.profiles FOR ALL TO authenticated USING (true) WITH CHECK (true);
 CREATE POLICY "Allow access settings" ON public.settings FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
@@ -199,6 +211,7 @@ CREATE POLICY "Allow access expenses" ON public.expenses FOR ALL TO anon, authen
 CREATE POLICY "Allow access bills" ON public.bills FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
 CREATE POLICY "Allow access chat_history" ON public.chat_history FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
 CREATE POLICY "Allow access notifications" ON public.notifications FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Allow access event_logs" ON public.event_logs FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
 
 -- Insert Default Settings
 INSERT INTO public.settings (id, restaurant_name, address, gstin, fssai, tax_rate, currency)
