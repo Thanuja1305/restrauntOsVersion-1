@@ -41,6 +41,54 @@ export default function AIAgentTab({
 }: AIAgentTabProps) {
   const [inputText, setInputText] = useState('');
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const [isListening, setIsListening] = useState(false);
+
+  const startVoiceRecognition = () => {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      console.warn("SpeechRecognition not supported in browser.");
+      alert("Voice speech recognition is not supported in this browser. Please use text input.");
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = 'en-US';
+
+    recognition.onstart = () => {
+      setIsListening(true);
+    };
+
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      setInputText(transcript);
+    };
+
+    recognition.onerror = (event: any) => {
+      console.warn("Voice speech recognition failed, switching to text mode.", event.error);
+      setIsListening(false);
+      
+      const errorLog = {
+        error_type: "VoiceRecognitionError",
+        source: "voice",
+        timestamp: new Date().toISOString(),
+        payload_snapshot: { errorCode: event.error }
+      };
+      console.error("Voice Observability Log:", JSON.stringify(errorLog, null, 2));
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    try {
+      recognition.start();
+    } catch (err: any) {
+      console.error("Failed to start voice recognition:", err);
+      setIsListening(false);
+    }
+  };
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -495,8 +543,12 @@ export default function AIAgentTab({
           {/* Voice Mic Trigger Icon */}
           <button
             type="button"
-            onClick={() => handleSuggestionClick("Show today's sales summary")}
-            className="p-3.5 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-full text-gray-500 hover:text-gray-700 shrink-0 transition-all duration-150 cursor-pointer focus:outline-none"
+            onClick={startVoiceRecognition}
+            className={`p-3.5 border rounded-full shrink-0 transition-all duration-150 cursor-pointer focus:outline-none ${
+              isListening
+                ? 'bg-red-50 text-red-500 border-red-200 animate-pulse'
+                : 'bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-500 hover:text-gray-700'
+            }`}
             title="Speech recognition trigger"
           >
             <Mic className="w-4 h-4" />

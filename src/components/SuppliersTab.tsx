@@ -98,11 +98,11 @@ export default function SuppliersTab({ suppliers, onAddSupplier }: SuppliersTabP
               {/* Header and profile block */}
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center font-bold text-base uppercase shrink-0">
-                  {supp.name[0]}
+                  {supp?.name?.[0] || 'S'}
                 </div>
                 <div>
-                  <h4 className="font-bold text-sm text-gray-800 leading-tight">{supp.name}</h4>
-                  <span className="text-[10px] text-gray-400 font-mono font-bold uppercase mt-1 block">ID: {supp.id}</span>
+                  <h4 className="font-bold text-sm text-gray-800 leading-tight">{supp?.name || 'Unknown'}</h4>
+                  <span className="text-[10px] text-gray-400 font-mono font-bold uppercase mt-1 block">ID: {supp?.id}</span>
                 </div>
               </div>
 

@@ -82,20 +82,68 @@ export default function App() {
   const [chatLoading, setChatLoading] = useState<boolean>(false);
   const [isNewOrderModalOpen, setIsNewOrderModalOpen] = useState(false);
 
-  // Authenticated API request wrapper
-  const apiFetch = async (endpoint: string, options: RequestInit = {}) => {
+  // Authenticated API request wrapper with safety, retries, and logging
+  const apiFetch = async (endpoint: string, options: RequestInit = {}, retryCount = 0): Promise<any> => {
     const headers = {
       'Content-Type': 'application/json',
       ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
       ...(options.headers || {})
     };
 
-    const res = await fetch(endpoint, { ...options, headers });
-    if (!res.ok) {
-      const data = await res.json().catch(() => ({}));
-      throw new Error(data.error || `Request failed with status ${res.status}`);
+    try {
+      const res = await fetch(endpoint, { ...options, headers });
+      if (!res.ok) {
+        let errorData: any = {};
+        try {
+          errorData = await res.json();
+        } catch {
+          // ignore
+        }
+        throw new Error(errorData.error || errorData.detail || `Request failed with status ${res.status}`);
+      }
+
+      const text = await res.text();
+      if (!text) return {};
+      
+      let data: any;
+      try {
+        data = JSON.parse(text);
+      } catch (err: any) {
+        throw new Error(`JSON parsing failed: ${err.message}`);
+      }
+
+      if (data === null) {
+        throw new Error("Invalid response format: null response received");
+      }
+
+      // Orchestrator validation guard (Rule 4)
+      if (endpoint === '/api/chat' && options.method === 'POST') {
+        if (!data || data.status !== 'ok' || !data.data || typeof data.data !== 'object') {
+          throw new Error("Orchestrator returned an invalid payload structure.");
+        }
+      }
+
+      return data;
+    } catch (err: any) {
+      const errorLog = {
+        error_type: "APIFailure",
+        source: "frontend",
+        timestamp: new Date().toISOString(),
+        payload_snapshot: {
+          endpoint,
+          method: options.method || 'GET',
+          errorMessage: err.message,
+          retryAttempt: retryCount
+        }
+      };
+      console.error("Observability Failure Log:", JSON.stringify(errorLog, null, 2));
+
+      if (retryCount < 1) {
+        console.warn(`Retrying API call to ${endpoint} once...`);
+        return apiFetch(endpoint, options, retryCount + 1);
+      }
+      throw err;
     }
-    return res.json();
   };
 
   // Fetch all databases when user becomes authenticated
@@ -105,7 +153,19 @@ export default function App() {
     }
   }, [isAuthenticated]);
 
-  // Loader for all databases
+  // Loading timeout safety guard to prevent infinite loader freezes (Rule 6)
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isGlobalLoading) {
+      timer = setTimeout(() => {
+        console.warn("Global loading state timed out after 10000ms. Auto-recovering loader state...");
+        endRequest();
+      }, 10000);
+    }
+    return () => clearTimeout(timer);
+  }, [isGlobalLoading, endRequest]);
+
+  // Loader for all databases with safety guards (Rule 7)
   const loadAllDatabase = async () => {
     startRequest();
     try {
@@ -120,28 +180,35 @@ export default function App() {
         chatData,
         notificationsData
       ] = await Promise.all([
-        apiFetch('/api/settings'),
-        apiFetch('/api/orders'),
-        apiFetch('/api/menu'),
-        apiFetch('/api/inventory'),
-        apiFetch('/api/customers'),
-        apiFetch('/api/suppliers'),
-        apiFetch('/api/finance'),
-        apiFetch('/api/chat'),
-        apiFetch('/api/notifications')
+        apiFetch('/api/settings').catch(() => null),
+        apiFetch('/api/orders').catch(() => null),
+        apiFetch('/api/menu').catch(() => null),
+        apiFetch('/api/inventory').catch(() => null),
+        apiFetch('/api/customers').catch(() => null),
+        apiFetch('/api/suppliers').catch(() => null),
+        apiFetch('/api/finance').catch(() => null),
+        apiFetch('/api/chat').catch(() => null),
+        apiFetch('/api/notifications').catch(() => null)
       ]);
 
-      setSettings(settingsData);
-      setOrders(ordersData);
-      setMenu(menuData);
-      setInventory(inventoryData);
-      setCustomers(customersData);
-      setSuppliers(suppliersData);
-      setPayments(financeData.payments);
-      setExpenses(financeData.expenses);
-      setBills(financeData.bills);
-      setChatHistory(chatData);
-      setNotifications(notificationsData);
+      setSettings(settingsData || {
+        restaurantName: 'Spice Heaven',
+        address: '23 Green Street, Hitech City, Hyderabad - 500081',
+        gstin: '36ABCDE1234F1Z5',
+        fssai: '13620012000456',
+        taxRate: 5.0,
+        currency: '₹'
+      });
+      setOrders(ordersData || []);
+      setMenu(menuData || []);
+      setInventory(inventoryData || []);
+      setCustomers(customersData || []);
+      setSuppliers(suppliersData || []);
+      setPayments(financeData?.payments || []);
+      setExpenses(financeData?.expenses || []);
+      setBills(financeData?.bills || []);
+      setChatHistory(chatData || []);
+      setNotifications(notificationsData || []);
     } catch (err) {
       console.error('Failed to load restaurant databases', err);
     } finally {

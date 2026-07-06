@@ -188,7 +188,14 @@ async def get_chat_history(user: Dict[str, Any] = Depends(AuthAgent.verify_token
 
 @router.post("/chat", response_model=schemas.ChatResponse)
 async def submit_chat_message(payload: schemas.ChatRequest, user: Dict[str, Any] = Depends(AuthAgent.verify_token)):
-    return await OrchestratorAgent.process_chat_query(payload.message, user["id"])
+    res = await OrchestratorAgent.process_chat_query(payload.message, user["id"])
+    return {
+        "status": "ok",
+        "type": "chat_response",
+        "data": res,
+        "route_to": "orchestrator",
+        "confidence": 1.0
+    }
 
 @router.post("/chat/clear", response_model=schemas.ChatClearResponse)
 async def clear_chat(user: Dict[str, Any] = Depends(AuthAgent.verify_token)):

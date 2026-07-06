@@ -184,8 +184,11 @@ class ChatRequest(BaseModel):
     message: str
 
 class ChatResponse(BaseModel):
-    userMessage: MessageSchema
-    agentMessage: MessageSchema
+    status: str = "ok"
+    type: str = "chat_response"
+    data: Dict[str, Any]
+    route_to: str = "orchestrator"
+    confidence: float = 1.0
 
 class ChatClearResponse(BaseModel):
     status: str = "ok"

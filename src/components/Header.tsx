@@ -159,11 +159,11 @@ export default function Header({
         {/* Profile Profile Card */}
         <div className="flex items-center gap-3">
           <div className="text-right">
-            <h4 className="text-xs font-bold text-gray-900 leading-none">{settings.restaurantName}</h4>
+            <h4 className="text-xs font-bold text-gray-900 leading-none">{settings?.restaurantName || 'Spice Heaven'}</h4>
             <span className="text-[10px] text-emerald-600 font-mono mt-1 block uppercase font-bold tracking-wider">{user?.role || 'Owner'}</span>
           </div>
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 text-white font-bold flex items-center justify-center uppercase shadow-md shadow-emerald-600/10 border border-emerald-500/10">
-            {settings.restaurantName[0]}
+            {settings?.restaurantName?.[0] || 'S'}
           </div>
         </div>
       </div>
