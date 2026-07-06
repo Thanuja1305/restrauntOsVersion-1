@@ -1,0 +1,856 @@
+{
+  "settings": {
+    "restaurant_name": "Spice Heaven",
+    "address": "23 Green Street, Hitech City, Hyderabad - 500081",
+    "gstin": "36ABCDE1234F1Z5",
+    "fssai": "13620012000456",
+    "tax_rate": 5.0,
+    "currency": "\u20b9"
+  },
+  "menu": [
+    {
+      "id": "menu_1",
+      "name": "Masala Dosa",
+      "description": "Crispy crepe stuffed with potato mash",
+      "price": 120.0,
+      "category": "Mains",
+      "is_available": true,
+      "created_at": "2026-07-06T17:25:59.348889"
+    },
+    {
+      "id": "menu_2",
+      "name": "Paneer Butter Masala",
+      "description": "Soft paneer in rich tomato gravy",
+      "price": 220.0,
+      "category": "Mains",
+      "is_available": true,
+      "created_at": "2026-07-06T17:25:59.348889"
+    },
+    {
+      "id": "menu_3",
+      "name": "Garlic Naan",
+      "description": "Flatbread baked with garlic",
+      "price": 40.0,
+      "category": "Bread",
+      "is_available": true,
+      "created_at": "2026-07-06T17:25:59.348889"
+    },
+    {
+      "id": "menu_4",
+      "name": "Butter Naan",
+      "description": "Leavened flatbread brushed with butter",
+      "price": 35.0,
+      "category": "Bread",
+      "is_available": true,
+      "created_at": "2026-07-06T17:25:59.348889"
+    },
+    {
+      "id": "menu_5",
+      "name": "Samosa",
+      "description": "Flaky pastry shells with potato filling",
+      "price": 50.0,
+      "category": "Starters",
+      "is_available": true,
+      "created_at": "2026-07-06T17:25:59.348889"
+    },
+    {
+      "id": "menu_6",
+      "name": "Filter Coffee",
+      "description": "South Indian milk coffee",
+      "price": 40.0,
+      "category": "Beverages",
+      "is_available": true,
+      "created_at": "2026-07-06T17:25:59.348889"
+    },
+    {
+      "id": "menu_7",
+      "name": "Mango Lassi",
+      "description": "Yogurt blended with mango",
+      "price": 80.0,
+      "category": "Beverages",
+      "is_available": true,
+      "created_at": "2026-07-06T17:25:59.348889"
+    },
+    {
+      "id": "menu_8",
+      "name": "Chicken Biryani",
+      "description": "Basmati rice layered with spiced chicken",
+      "price": 250.0,
+      "category": "Mains",
+      "is_available": true,
+      "created_at": "2026-07-06T17:25:59.348889"
+    }
+  ],
+  "suppliers": [
+    {
+      "id": "supp_1",
+      "name": "Greenfield Farms",
+      "contact_name": "Rajesh Kumar",
+      "phone": "9812345670",
+      "email": "orders@greenfield.com",
+      "address": "Sector 5, Agritech Zone, Hyderabad",
+      "created_at": "2026-07-06T17:25:59.348889"
+    },
+    {
+      "id": "supp_2",
+      "name": "Krishna Dairy",
+      "contact_name": "Gopal Krishna",
+      "phone": "9823456781",
+      "email": "sales@krishnadairy.com",
+      "address": "Gachibowli, Hyderabad",
+      "created_at": "2026-07-06T17:25:59.348889"
+    },
+    {
+      "id": "supp_3",
+      "name": "A-One Grocery Hub",
+      "contact_name": "Amit Shah",
+      "phone": "9834567892",
+      "email": "amit@aonegrocery.com",
+      "address": "Begumpet, Hyderabad",
+      "created_at": "2026-07-06T17:25:59.348889"
+    }
+  ],
+  "ingredients": [
+    {
+      "id": "ing_1",
+      "name": "Tomatoes",
+      "unit_of_measure": "kg",
+      "supplier_id": "supp_1",
+      "min_stock_level": 10.0
+    },
+    {
+      "id": "ing_2",
+      "name": "Onions",
+      "unit_of_measure": "kg",
+      "supplier_id": "supp_1",
+      "min_stock_level": 15.0
+    },
+    {
+      "id": "ing_3",
+      "name": "Paneer",
+      "unit_of_measure": "kg",
+      "supplier_id": "supp_2",
+      "min_stock_level": 5.0
+    },
+    {
+      "id": "ing_4",
+      "name": "Refined Oil",
+      "unit_of_measure": "liters",
+      "supplier_id": "supp_3",
+      "min_stock_level": 8.0
+    },
+    {
+      "id": "ing_5",
+      "name": "Basmati Rice",
+      "unit_of_measure": "kg",
+      "supplier_id": "supp_3",
+      "min_stock_level": 20.0
+    },
+    {
+      "id": "ing_6",
+      "name": "Chicken Breast",
+      "unit_of_measure": "kg",
+      "supplier_id": "supp_3",
+      "min_stock_level": 12.0
+    }
+  ],
+  "inventory": [
+    {
+      "id": "inv_1",
+      "ingredient_id": "ing_1",
+      "current_stock": 2.5,
+      "last_updated": "2026-07-06T17:25:59.348889"
+    },
+    {
+      "id": "inv_2",
+      "ingredient_id": "ing_2",
+      "current_stock": 3.0,
+      "last_updated": "2026-07-06T17:25:59.348889"
+    },
+    {
+      "id": "inv_3",
+      "ingredient_id": "ing_3",
+      "current_stock": 1.2,
+      "last_updated": "2026-07-06T17:25:59.348889"
+    },
+    {
+      "id": "inv_4",
+      "ingredient_id": "ing_4",
+      "current_stock": 1.0,
+      "last_updated": "2026-07-06T17:25:59.348889"
+    },
+    {
+      "id": "inv_5",
+      "ingredient_id": "ing_5",
+      "current_stock": 25.0,
+      "last_updated": "2026-07-06T17:25:59.348889"
+    },
+    {
+      "id": "inv_6",
+      "ingredient_id": "ing_6",
+      "current_stock": 18.0,
+      "last_updated": "2026-07-06T17:25:59.348889"
+    }
+  ],
+  "customers": [
+    {
+      "id": "cust_1",
+      "name": "Ananya Rao",
+      "phone": "9876543210",
+      "email": "ananya@gmail.com",
+      "loyalty_points": 350,
+      "created_at": "2026-07-06T17:25:59.349495"
+    },
+    {
+      "id": "cust_2",
+      "name": "Vikram Malhotra",
+      "phone": "9123456789",
+      "email": "vikram@yahoo.com",
+      "loyalty_points": 120,
+      "created_at": "2026-07-06T17:25:59.349495"
+    },
+    {
+      "id": "cust_3",
+      "name": "Rohan Sharma",
+      "phone": "9345678120",
+      "email": "rohan@gmail.com",
+      "loyalty_points": 50,
+      "created_at": "2026-07-06T17:25:59.349495"
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord_det_1",
+      "customer_id": "cust_1",
+      "customer_name": "Ananya Rao",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 200.0,
+      "tax": 10.0,
+      "discount": 0.0,
+      "total": 210.0,
+      "items": [
+        {
+          "id": "item_1",
+          "menu_id": "menu_1",
+          "menu_name": "Masala Dosa",
+          "quantity": 1,
+          "unit_price": 120.0
+        },
+        {
+          "id": "item_2",
+          "menu_id": "menu_7",
+          "menu_name": "Mango Lassi",
+          "quantity": 1,
+          "unit_price": 80.0
+        }
+      ],
+      "created_at": "2026-07-06T17:25:59.349495"
+    },
+    {
+      "id": "ord_gen_2",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T17:23:59.349495"
+    },
+    {
+      "id": "ord_gen_3",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T17:22:59.349495"
+    },
+    {
+      "id": "ord_gen_4",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T17:21:59.349495"
+    },
+    {
+      "id": "ord_gen_5",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T17:20:59.349495"
+    },
+    {
+      "id": "ord_gen_6",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T17:19:59.349495"
+    },
+    {
+      "id": "ord_gen_7",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T17:18:59.349495"
+    },
+    {
+      "id": "ord_gen_8",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T17:17:59.349495"
+    },
+    {
+      "id": "ord_gen_9",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T17:16:59.349495"
+    },
+    {
+      "id": "ord_gen_10",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T17:15:59.349495"
+    },
+    {
+      "id": "ord_gen_11",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T17:14:59.349495"
+    },
+    {
+      "id": "ord_gen_12",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T17:13:59.349495"
+    },
+    {
+      "id": "ord_gen_13",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T17:12:59.349495"
+    },
+    {
+      "id": "ord_gen_14",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T17:11:59.349495"
+    },
+    {
+      "id": "ord_gen_15",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T17:10:59.349495"
+    },
+    {
+      "id": "ord_gen_16",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T17:09:59.349495"
+    },
+    {
+      "id": "ord_gen_17",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T17:08:59.349495"
+    },
+    {
+      "id": "ord_gen_18",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T17:07:59.349495"
+    },
+    {
+      "id": "ord_gen_19",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T17:06:59.349495"
+    },
+    {
+      "id": "ord_gen_20",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T17:05:59.349495"
+    },
+    {
+      "id": "ord_gen_21",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T17:04:59.349495"
+    },
+    {
+      "id": "ord_gen_22",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T17:03:59.349495"
+    },
+    {
+      "id": "ord_gen_23",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T17:02:59.349495"
+    },
+    {
+      "id": "ord_gen_24",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T17:01:59.350073"
+    },
+    {
+      "id": "ord_gen_25",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T17:00:59.350073"
+    },
+    {
+      "id": "ord_gen_26",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T16:59:59.350073"
+    },
+    {
+      "id": "ord_gen_27",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T16:58:59.350073"
+    },
+    {
+      "id": "ord_gen_28",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T16:57:59.350073"
+    },
+    {
+      "id": "ord_gen_29",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T16:56:59.350073"
+    },
+    {
+      "id": "ord_gen_30",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T16:55:59.350073"
+    },
+    {
+      "id": "ord_gen_31",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T16:54:59.350073"
+    },
+    {
+      "id": "ord_gen_32",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T16:53:59.350073"
+    },
+    {
+      "id": "ord_gen_33",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T16:52:59.350073"
+    },
+    {
+      "id": "ord_gen_34",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T16:51:59.350073"
+    },
+    {
+      "id": "ord_gen_35",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T16:50:59.350073"
+    },
+    {
+      "id": "ord_gen_36",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T16:49:59.350073"
+    },
+    {
+      "id": "ord_gen_37",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T16:48:59.350073"
+    },
+    {
+      "id": "ord_gen_38",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T16:47:59.350073"
+    },
+    {
+      "id": "ord_gen_39",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 550.0,
+      "tax": 27.5,
+      "discount": 0.0,
+      "total": 577.5,
+      "items": [],
+      "created_at": "2026-07-06T16:46:59.350073"
+    },
+    {
+      "id": "ord_gen_40",
+      "customer_id": null,
+      "customer_name": "Walk-in Guest",
+      "user_id": "usr_fallback_1",
+      "server_name": "AI System Gate",
+      "status": "completed",
+      "subtotal": 3275.0,
+      "tax": 163.75,
+      "discount": 0.0,
+      "total": 3438.75,
+      "items": [],
+      "created_at": "2026-07-06T16:45:59.350636"
+    }
+  ],
+  "bills": [
+    {
+      "id": "bill_1",
+      "supplier_id": "supp_1",
+      "supplier_name": "Greenfield Farms",
+      "amount": 4500.0,
+      "due_date": "2026-07-20",
+      "status": "unpaid"
+    },
+    {
+      "id": "bill_2",
+      "supplier_id": "supp_2",
+      "supplier_name": "Krishna Dairy",
+      "amount": 1850.0,
+      "due_date": "2026-07-15",
+      "status": "paid"
+    },
+    {
+      "id": "bill_3",
+      "supplier_id": "supp_3",
+      "supplier_name": "A-One Grocery Hub",
+      "amount": 7200.0,
+      "due_date": "2026-07-25",
+      "status": "unpaid"
+    }
+  ],
+  "expenses": [
+    {
+      "id": "exp_1",
+      "category": "Rent",
+      "amount": 30000.0,
+      "description": "Monthly restaurant rent payment",
+      "expense_date": "2026-07-01"
+    },
+    {
+      "id": "exp_2",
+      "category": "Electricity",
+      "amount": 8500.0,
+      "description": "Power utility bill",
+      "expense_date": "2026-07-05"
+    },
+    {
+      "id": "exp_3",
+      "category": "Salaries",
+      "amount": 45000.0,
+      "description": "Staff weekly payroll",
+      "expense_date": "2026-07-06"
+    }
+  ],
+  "chat_history": [
+    {
+      "id": "msg_init",
+      "role": "assistant",
+      "content": "I'm your Restaurant AI Agent \ud83e\udd16\nI can help you with orders, inventory, finance, customers, suppliers, reports and much more.",
+      "timestamp": "10:00 AM"
+    }
+  ],
+  "notifications": []
+}
