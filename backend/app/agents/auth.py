@@ -1,6 +1,5 @@
 import jwt
 import datetime
-import bcrypt
 from typing import Dict, Any, Optional
 from fastapi import HTTPException, Security
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
