@@ -5,8 +5,12 @@ from typing import List, Dict, Any, Optional
 from backend.app.supabase_client import supabase
 from backend.app.logger import logger
 
-DATA_DIR = os.path.join(os.getcwd(), "data")
-DB_FILE = os.path.join(DATA_DIR, "db.json")
+if os.getenv("VERCEL"):
+    DATA_DIR = "/tmp"
+    DB_FILE = "/tmp/db.json"
+else:
+    DATA_DIR = os.path.join(os.getcwd(), "data")
+    DB_FILE = os.path.join(DATA_DIR, "db.json")
 
 def initialize_local_db():
     """Seeds the local JSON database file if it does not already exist."""
